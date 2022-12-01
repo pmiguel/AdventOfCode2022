@@ -1,14 +1,8 @@
 #!/bin/env ruby
 
-def read_file(file_name)
-    file = File.open(file_name)
-    data = file.readlines.map(&:chomp)    
-    file.close
-
-    return data
-end
-
-data = read_file "in1.txt"
+file = File.open("in1.txt")
+data = file.readlines.map(&:chomp)    
+file.close
 
 current_elf = 0
 current_top = current_elf
@@ -30,4 +24,14 @@ data.each do |line|
     end
 end
 
-puts elf_data[current_top][:elf_total]
+# Part1
+puts "Top1 Most #{elf_data[current_top][:elf_total]}"
+
+top_3_total = elf_data
+    .map { |k,v| v[:elf_total] }
+    .sort()
+    .reverse()
+    .slice(0, 3)
+    .sum()
+
+puts "Top3 Total: #{top_3_total}"
