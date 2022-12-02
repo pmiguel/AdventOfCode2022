@@ -1,5 +1,3 @@
-f = open('in1.txt')
-
 R_SCORE = 1
 P_SCORE = 2
 S_SCORE = 3
