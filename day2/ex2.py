@@ -8,42 +8,54 @@ lose_score = 0
 draw_score = 3
 win_score = 6
 
-OPP_ROCK = 'A'
-OPP_PAPER = 'B'
-OPP_SCISSORS = 'C'
+ROCK = 'A'
+PAPER = 'B'
+SCISSORS = 'C'
 
-OWN_ROCK = 'X'
-OWN_PAPER = 'Y'
-OWN_SCISSORS = 'Z'
 
+outcomes = {
+    # SYMBOL: (Wins Against, Loses Against)
+    ROCK: (SCISSORS, PAPER),
+    PAPER: (ROCK, SCISSORS),
+    SCISSORS: (PAPER, ROCK),
+}
+
+LOSE = 'X'
+DRAW = 'Y'
+WIN = 'Z'
+
+OWN_ROCK = LOSE
+OWN_PAPER = DRAW
+OWN_SCISSORS = WIN
+
+# P1
 def get_symbol_score(symbol):
-    if symbol == OWN_ROCK:
+    if symbol in [ROCK, OWN_ROCK]:
         return R_SCORE
 
-    if symbol == OWN_PAPER:
+    if symbol in [PAPER, OWN_PAPER]:
         return P_SCORE
     
-    if symbol == OWN_SCISSORS:
+    if symbol in [SCISSORS, OWN_SCISSORS]:
         return S_SCORE
     
-
 def get_match_score(arr):
     a = arr[0]
     b = arr[1]
     outcome_score = 0
-    if a == OPP_ROCK:
+    if a == ROCK:
         if b == OWN_ROCK:
             outcome_score = 3
         if b == OWN_PAPER:
             outcome_score = 6
 
-    if a == OPP_PAPER:
+    if a == PAPER:
         if b == OWN_PAPER:
             outcome_score = 3
         if b == OWN_SCISSORS:
             outcome_score = 6
 
-    if a == OPP_SCISSORS: 
+    if a == SCISSORS: 
         if b == OWN_SCISSORS:
             outcome_score = 3
         if b == OWN_ROCK:
@@ -51,10 +63,39 @@ def get_match_score(arr):
 
     return outcome_score + get_symbol_score(b)
 
-scores = []
+data = []
 
 with open('in1.txt') as file:
-    scores = map(get_match_score, [line.replace('\n', '').split(' ') for line in file])
+    data = [line.replace('\n', '').split(' ') for line in file]
 
-print(sum(list(scores)))
-su
+print("P1", sum(list(map(get_match_score, data))))
+
+
+# P2
+def get_required_outcome(arr):
+    a = arr[0]
+    b = arr[1]
+
+    if arr[1] == DRAW:
+        return arr[0]
+
+    if arr[1] == WIN:
+        return outcomes[arr[0]][1]
+
+    if arr[1] == LOSE:
+        return outcomes[arr[0]][0]
+
+def get_match_score_improved(arr):
+    required_outcome = get_required_outcome(arr)
+    outcome_symbol_score = get_symbol_score(required_outcome)
+
+    if arr[1] == LOSE:
+        return outcome_symbol_score
+    
+    if arr[1] == WIN:
+        return outcome_symbol_score + 6
+
+    return outcome_symbol_score + 3
+
+
+print("P2", sum(list(map(get_match_score_improved, data))))
