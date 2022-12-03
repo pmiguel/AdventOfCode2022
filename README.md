@@ -10,5 +10,6 @@ https://adventofcode.com/2022
 
 - [x] Day 1 (Ruby)
 - [x] Day 2 (Python)
-- [ ] Day 3 (JavaScript)
+- [x] Day 3 (JavaScript)
+- [ ] Day 4 (Go)
 
